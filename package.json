@@ -1,0 +1,30 @@
+{
+  "name": "commandparser",
+  "version": "0.2.0",
+  "description": "A parser for Minecraft's MoLang language",
+  "main": "dist/main.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bridge-core/CommandParser.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bridge-core/CommandParser/issues"
+  },
+  "homepage": "https://github.com/bridge-core/CommandParser#readme",
+  "devDependencies": {
+    "@types/jest": "^24.0.25",
+    "@types/node": "^13.1.2",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.2.0",
+    "typescript": "^3.7.4"
+  },
+  "dependencies": {}
+}
