@@ -1,6 +1,7 @@
 import World from "./World";
 import { IScore } from "./Scoreboard";
 import { isUndefined } from "util";
+import timer from "timers";
 
 export default class Entity {
     
@@ -9,6 +10,7 @@ export default class Entity {
     protected type: String | undefined
     protected scores: Map<String, Number>
     protected tags: Set<String>
+    protected health: number = 20
 
     constructor(world: World) {
         this.world = world
@@ -47,15 +49,39 @@ export default class Entity {
         else this.tags.delete(tag)
     }
 
+
+
 }
 
 export class Player extends Entity {
+
+    private respawnTime: number = 0
+    public alive: boolean = true
+
     constructor(name: String, world: World) {
         super(world)
         this.name = name
     }
 
+    // can't change name to a player
     setName(name: String) {
         throw new Error("can't assign a new name to a player!")
+    }
+
+    // remove the if as players always have a name
+    getName() {
+        return this.name
+    }
+
+    async damage(damage: number) {
+        if ( damage > this.health ) {
+            this.respawn()
+        }
+        this.health = this.health - damage
+    }
+
+    respawn() {
+        this.alive = false
+        timer.setTimeout
     }
 }
