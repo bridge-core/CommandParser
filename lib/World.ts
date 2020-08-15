@@ -1,6 +1,6 @@
 import {  } from './RunTime'
 import Block from './Block'
-import Entity from './Entity'
+import Entity, { Player } from './Entity'
 import { IScore } from './Scoreboard'
 
 export default class World {
@@ -35,6 +35,10 @@ export default class World {
         if ( score.name in this.scoreboards ) {
 
         }
+    }
+
+    playerJoin(name: String) {
+        this.entities.set(name, new Player(name, this) )
     }
 
     private setData(entities: Map<String, Entity>, blocks: Map<String, Block>) {
