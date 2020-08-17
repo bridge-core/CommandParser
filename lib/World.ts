@@ -2,6 +2,7 @@ import {  } from './RunTime'
 import Block from './Block'
 import Entity, { Player } from './Entity'
 import { IScore } from './Scoreboard'
+import { ISelector } from './Command'
 
 export default class World {
     
@@ -35,6 +36,15 @@ export default class World {
         if ( score.name in this.scoreboards ) {
 
         }
+    }
+
+    getEntitiesFromSelector(selector: String): Array<Entity> {
+        let entities = new Array<Entity>()
+        selObj = Selector(selector)
+        selector.split(",").forEach( str => {
+            
+        })
+        return entities
     }
 
     playerJoin(name: String) {

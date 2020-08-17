@@ -1,5 +1,5 @@
 import { Command, ICommand } from "./Command"
-import { RunArray } from "./RunTime"
+import RunTime from "./RunTime"
 
 
 export default class Function {
@@ -10,7 +10,7 @@ export default class Function {
         this.commandList = buildCommandListFrom(commandList)
     }
 
-    Run() {
+    Run(runtime: RunTime) {
         this.commandList.forEach( command => {
            RunArray(command) 
         })

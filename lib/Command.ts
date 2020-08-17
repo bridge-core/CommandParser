@@ -17,7 +17,7 @@ export interface ICommand {
 }
 
 export interface ISelector {
-    type: 
+    type: null
 }
 
 
@@ -26,13 +26,4 @@ export enum EEntType {
     randomPlayer = '@r',
     nearestPlayer = '@p',
     entity = '@e'
-}
-
-export class Scoreboard extends Command {
-
-    run(args: string[]): boolean {
-        let successful: boolean = true
-        
-        return successful
-    }
 }
