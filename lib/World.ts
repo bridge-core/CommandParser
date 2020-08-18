@@ -4,24 +4,24 @@ import Entity, { Player } from './Entity'
 import { IScore } from './Scoreboard'
 import { ISelector } from './Command'
 import Selector from './Selector'
-import Gamerules from './Gamerules'
+import { Gamerules } from './Gamerules'
 
 export default class World {
     
-    private entities: Map<String, Entity> 
-    private blocks: Map<String, Block>
+    private entities: Array<Entity> 
+    private blocks: Array<Block>
     private scoreboards: Array<String>
     private functions = {}
     private commandStack = []
-    private gamerules: Gamerules
+    private gamerules: object
 
     constructor() {
-        this.entities = new Map<String, Entity>()
-        this.blocks = new Map<String, Block>()
+        this.entities = new Array<Entity>()
+        this.blocks = new Array<Block>()
         this.scoreboards = new Array<String>()
         this.functions = {}
         this.commandStack = []
-        this.gamerules = new Gamerules()
+        this.gamerules = Gamerules
     }
 
     GetWorldAsString() {
@@ -31,7 +31,7 @@ export default class World {
 
     placeBlock(x: string, y: string, z: string, type: string) {
         // place a block at XYZ
-        this.blocks.set( x.concat(y).concat(z), new Block(type) )
+        this.blocks.push(new Block(type) )
     }
 
     getBlock( x: string, y: string, z: string ) {

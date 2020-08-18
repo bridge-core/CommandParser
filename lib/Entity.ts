@@ -97,7 +97,7 @@ export class Player extends Entity {
 
     respawn() {
         this.health = 20
-        this.alive = true
         this.coords = this.spawnPoint
+        this.alive = true
     }
 }
