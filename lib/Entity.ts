@@ -2,6 +2,7 @@ import World from "./World";
 import { IScore } from "./Scoreboard";
 import { isUndefined } from "util";
 import timer from "timers";
+import { Coords } from "./Common";
 
 export default class Entity {
     
@@ -11,9 +12,11 @@ export default class Entity {
     protected scores: Map<String, Number>
     protected tags: Set<String>
     protected health: number = 20
+    protected coords: Coords
 
-    constructor(world: World) {
+    constructor(world: World, coords: Coords) {
         this.world = world
+        this.coords = coords
         this.scores = new Map<String, Number>()
         this.tags = new Set<String>()
     }
@@ -56,11 +59,13 @@ export default class Entity {
 export class Player extends Entity {
 
     private respawnTime: number = 0
+    private spawnPoint: Coords
     public alive: boolean = true
 
-    constructor(name: String, world: World) {
-        super(world)
+    constructor(name: String, world: World, coords: Coords) {
+        super(world, coords)
         this.name = name
+        this.spawnPoint = coords
     }
 
     // can't change name to a player
@@ -75,13 +80,24 @@ export class Player extends Entity {
 
     async damage(damage: number) {
         if ( damage > this.health ) {
+            this.kill()
+        } else {
+            this.health = this.health - damage
+        }
+    }
+
+    kill() {
+        this.alive = false
+        if (this.world.getRule('doImmediateRespawn') == false) {
+            timer.setTimeout(this.respawn, this.respawnTime)
+        } else {
             this.respawn()
         }
-        this.health = this.health - damage
     }
 
     respawn() {
-        this.alive = false
-        timer.setTimeout
+        this.health = 20
+        this.alive = true
+        this.coords = this.spawnPoint
     }
 }
