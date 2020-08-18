@@ -5,7 +5,7 @@ import { Scoreboard } from "./Scoreboard";
 export default class RunTime {
     world = new World()
     commands = {
-        "scoreboard": new Scoreboard(this.world)
+        'scoreboard': new Scoreboard(this.world)
     }
 
     RunArray(arr: Array<string>)  {
