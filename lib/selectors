@@ -1,3 +1,4 @@
 @r[tag=thanosed,y=1]
 @e[r=2,type=zombie]
 @e[type=player,name=jerry]
+@a[tag=scared,tag=!tired,x=~-5,y=~-5,z=~-5,dx=10,dy=10,dz=10,scores={nextgame=5,trailtime=60},c=5]
