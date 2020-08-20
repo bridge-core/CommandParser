@@ -1,4 +1,4 @@
-export const Gamerules: object = {
+export const Gamerules: Record<string, GenericGamerule<number | boolean>> = {
 
     commandBlocksEnabled: makeGamerule(true, 'Whether command blocks should be enabled in-game'),
     commandBlockOutput: makeGamerule(true, 'Whether command blocks should notify admins when they perform commands'),
@@ -28,16 +28,17 @@ export const Gamerules: object = {
     showTags: makeGamerule(true, 'Hides the "Can place on" and "Can destroy" block lists from item lore.'),
 }
 
-interface BoolGameRule {
+export interface GenericGamerule<T> {
     description: String
-    default: boolean
+    default: T
+    value: T
+}
+interface BoolGameRule extends GenericGamerule<boolean> {
     value: boolean
 }
 
-interface IntGameRule {
-    description: String
+interface IntGameRule extends GenericGamerule<number> {
     max: number | undefined
-    default: number
     value: number
 }
 

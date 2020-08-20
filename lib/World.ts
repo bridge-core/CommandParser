@@ -4,21 +4,20 @@ import Entity, { Player } from './Entity'
 import { IScore } from './Scoreboard'
 import { ISelector } from './Command'
 import Selector from './Selector'
-import { Gamerules } from './Gamerules'
+import { Gamerules, GenericGamerule } from './Gamerules'
+import { Coords } from './Common'
 
 export default class World {
     
-    private entities: Array<Entity> 
-    private blocks: Array<Block>
-    private scoreboards: Array<String>
+    private entities = new Map<string, Entity>()
+    private blocks = new Map<string, Block>()
+    private scoreboards = new Array<String>()
     private functions = {}
     private commandStack = []
-    private gamerules: object
+    private gamerules: Record<string, GenericGamerule<number | boolean>>
+    protected spawnPoint: Coords = { x: 0, y:0, z:0 }
 
     constructor() {
-        this.entities = new Array<Entity>()
-        this.blocks = new Array<Block>()
-        this.scoreboards = new Array<String>()
         this.functions = {}
         this.commandStack = []
         this.gamerules = Gamerules
@@ -29,14 +28,14 @@ export default class World {
         return JSON.stringify({'entities': this.entities, 'blocks': this.blocks, 'scoreboards': this.scoreboards})
     }
 
-    placeBlock(x: string, y: string, z: string, type: string) {
+    placeBlock(x: number, y: number, z: number, type: string) {
         // place a block at XYZ
-        this.blocks.push(new Block(type) )
+        this.blocks.set(`${x}.${y}.${z}`, new Block(type, { x, y, z }) )
     }
 
-    getBlock( x: string, y: string, z: string ) {
+    getBlock( x: number, y: number, z: number ) {
         // get the block at XYZ
-        return this.blocks.get( x.concat(y).concat(z) )
+        return this.blocks.get(`${x}.${y}.${z}`)
     }
 
     setEntityScore(selector: Selector, score: IScore) {
@@ -45,7 +44,7 @@ export default class World {
         }
     }
 
-    getEntitiesFromSelector(selector: String, runner: Entity | undefined): Array<Entity> {
+    getEntitiesFromSelector(selector: String, runner?: Entity): Array<Entity> {
         /*
         * returns the entities specified by SELECTOR as an array.
         * if no entities correspond to the selector an empty array | null is returned.
@@ -59,14 +58,14 @@ export default class World {
         return entities
     }
 
-    playerJoin(name: String) {
+    playerJoin(name: string) {
         /* make a player join the world
         * there's always at least one player in the world
         */
-        this.entities.set(name, new Player(name, this) )
+        this.entities.set(name, new Player(name, this, this.spawnPoint) )
     }
 
-    getRule(name: String) {
+    getRule(name: string) {
         return this.gamerules[name]
     }
 
@@ -76,7 +75,7 @@ export default class World {
 
 
 
-    private setData(entities: Map<String, Entity>, blocks: Map<String, Block>) {
+    private setData(entities: Map<string, Entity>, blocks: Map<string, Block>) {
         this.entities = entities
         this.blocks = blocks
     }

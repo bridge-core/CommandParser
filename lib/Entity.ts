@@ -88,7 +88,7 @@ export class Player extends Entity {
 
     kill() {
         this.alive = false
-        if (this.world.getRule('doImmediateRespawn') == false) {
+        if (this.world.getRule('doImmediateRespawn').value === false) {
             timer.setTimeout(this.respawn, this.respawnTime)
         } else {
             this.respawn()

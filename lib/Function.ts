@@ -12,7 +12,8 @@ export default class Function {
 
     Run(runtime: RunTime) {
         this.commandList.forEach( command => {
-           RunArray(command) 
+            // RunArray can only be called on the Runtime
+            // RunArray(command) 
         })
     }
 }
