@@ -1,7 +1,7 @@
 import {  } from './RunTime'
 import Block from './Block'
 import Entity, { Player } from './Entity'
-import { IScore } from './Scoreboard'
+import { IScore } from './commands/Scoreboard'
 import { ISelector } from './Command'
 import Selector from './Selector'
 import { Gamerules, GenericGamerule } from './Gamerules'

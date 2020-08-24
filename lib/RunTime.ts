@@ -1,6 +1,6 @@
 import { Command, ICommand } from "./Command";
 import World from "./World";
-import { Scoreboard } from "./Scoreboard";
+import { Scoreboard } from "./commands/Scoreboard";
 
 export default class RunTime {
     world = new World()

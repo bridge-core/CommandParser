@@ -3,3 +3,22 @@ export interface Coords {
     y?: number,
     z?: number
 }
+
+export class Slot {
+    itemId: String | null = null
+    accepts: Array<String> = new Array<String>()
+    count: number = 0
+    constructor() {
+
+    }
+
+    addItem(itemId: String, count: number) {
+        if (this.accepts.length > 0) {
+            if (!this.accepts.includes(itemId)) throw new Error(`this slot only accepts ${this.accepts.toString()}`)
+        }
+    }
+}
+
+export class inventory {
+
+}

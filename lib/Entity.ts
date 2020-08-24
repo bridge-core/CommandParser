@@ -1,5 +1,5 @@
 import World from "./World";
-import { IScore } from "./Scoreboard";
+import { IScore } from "./commands/Scoreboard";
 import { isUndefined } from "util";
 import timer from "timers";
 import { Coords } from "./Common";
@@ -13,6 +13,7 @@ export default class Entity {
     protected tags: Set<String>
     protected health: number = 20
     protected coords: Coords
+    public alive: boolean = true
 
     constructor(world: World, coords: Coords) {
         this.world = world
@@ -22,7 +23,8 @@ export default class Entity {
     }
 
     setName(name: String) {
-        this.name = name
+        if ( name.length > 0) this.name = name
+        else throw new Error('the name must have at least one character')
     }
 
     getName() {
@@ -52,7 +54,17 @@ export default class Entity {
         else this.tags.delete(tag)
     }
 
+    async damage(damage: number) {
+        if (damage > this.health) {
+            this.kill()
+        } else {
+            this.health = this.health - damage
+        }
+    }
 
+    kill() {
+        this.alive = false
+    }
 
 }
 
@@ -60,7 +72,6 @@ export class Player extends Entity {
 
     private respawnTime: number = 0
     private spawnPoint: Coords
-    public alive: boolean = true
 
     constructor(name: String, world: World, coords: Coords) {
         super(world, coords)

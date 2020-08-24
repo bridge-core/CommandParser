@@ -1,4 +1,4 @@
-import { Command, ICommand } from "./Command"
+import { Command, ICommand } from "./commands/Command"
 import RunTime from "./RunTime"
 
 

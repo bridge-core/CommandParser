@@ -5,7 +5,9 @@ export default class Give extends Command {
         // args[0]: command, args[1]: selector, args[2]: item, args[3]: quantity
         let successful: boolean = true
         let entity = this.world.getEntitiesFromSelector(args[1])
-        entity
+        entity.forEach( ent => {
+            ent.inventory
+        })
         return successful
     }
 
