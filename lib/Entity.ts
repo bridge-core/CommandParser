@@ -2,7 +2,7 @@ import World from "./World";
 import { IScore } from "./commands/Scoreboard";
 import { isUndefined } from "util";
 import timer from "timers";
-import { Coords } from "./Common";
+import { Coords, Inventory, InvType } from "./Common";
 
 export default class Entity {
     
@@ -13,9 +13,10 @@ export default class Entity {
     protected tags: Set<String>
     protected health: number = 20
     protected coords: Coords
+    protected inventory: Inventory
     public alive: boolean = true
 
-    constructor(world: World, coords: Coords) {
+    constructor(world: World, coords: Coords, invtype: InvType) {
         this.world = world
         this.coords = coords
         this.scores = new Map<String, Number>()

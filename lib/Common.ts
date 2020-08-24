@@ -19,6 +19,12 @@ export class Slot {
     }
 }
 
-export class inventory {
+export class Inventory {
 
+}
+
+export enum InvType {
+    player = 0,
+    monster = 1,
+    villager = 2
 }
