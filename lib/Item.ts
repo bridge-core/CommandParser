@@ -46,4 +46,5 @@ export enum ItemType {
     leggins = 1,
     chestplate = 2,
     helmet = 3,
+    fuel = 4,
 }
