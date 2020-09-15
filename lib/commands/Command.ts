@@ -1,14 +1,9 @@
-import World from "../World"
+import Entity from "../Entity";
 
-export abstract class Command {
+export default abstract class Command {
 
-    world: World
-
-    constructor(world: World) {
-        this.world = world
-    }
     // if command fails, returns false
-    abstract run(args: Array<string>): boolean
+    abstract run(args: Array<string>, invoker: Entity): boolean
 }
 
 export interface ICommand {

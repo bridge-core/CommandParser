@@ -2,25 +2,33 @@ import World from "./World";
 import { IScore } from "./commands/Scoreboard";
 import { isUndefined } from "util";
 import timer from "timers";
-import { Coords, Inventory, InvType } from "./Common";
+import { Coords } from "./Common";
+import Inventory, { InvType, PlayerInventory } from "./Inventory";
 
 export default class Entity {
     
-    protected world: World
     protected name: String | undefined
     protected type: String | undefined
     protected scores: Map<String, Number>
     protected tags: Set<String>
     protected health: number = 20
     protected coords: Coords
-    protected inventory: Inventory
+    public inventory: Inventory | undefined
     public alive: boolean = true
 
-    constructor(world: World, coords: Coords, invtype: InvType) {
-        this.world = world
+    constructor(coords: Coords) {
         this.coords = coords
         this.scores = new Map<String, Number>()
         this.tags = new Set<String>()
+
+    }
+
+    setCoords(coords: Coords): void {
+        this.coords = coords
+    }
+
+    getCoords(): Coords {
+        return this.coords
     }
 
     setName(name: String) {
@@ -29,7 +37,7 @@ export default class Entity {
     }
 
     getName() {
-        if (isUndefined(this.name) ) return this.type
+        if (this.name === undefined ) return this.type
         else return this.name
     }
 
@@ -51,9 +59,14 @@ export default class Entity {
     }
 
     removeTag(tag: String) {
-        if (! this.tags.has(tag) ) throw Error("this entity doesn't have tag " + tag)
+        if (! this.tags.has(tag) ) throw Error("this entity doesn't have the tag " + tag)
         else this.tags.delete(tag)
     }
+
+    hasTag(tag: string) {
+        return this.tags.has(tag)
+    }
+
 
     async damage(damage: number) {
         if (damage > this.health) {
@@ -71,11 +84,13 @@ export default class Entity {
 
 export class Player extends Entity {
 
-    private respawnTime: number = 0
+    private respawnTime: number = 2
     private spawnPoint: Coords
+    public inventory = new PlayerInventory()
+    private timerID: NodeJS.Timeout | undefined
 
-    constructor(name: String, world: World, coords: Coords) {
-        super(world, coords)
+    constructor(name: String, coords: Coords) {
+        super(coords)
         this.name = name
         this.spawnPoint = coords
     }
@@ -100,16 +115,25 @@ export class Player extends Entity {
 
     kill() {
         this.alive = false
-        if (this.world.getRule('doImmediateRespawn').value === false) {
-            timer.setTimeout(this.respawn, this.respawnTime)
+        if (World.instance.getRule('doImmediateRespawn').value === false) {
+            this.timerID = timer.setTimeout(this.respawn, this.respawnTime)
         } else {
             this.respawn()
         }
     }
 
-    respawn() {
+    private respawn() {
+        timer.clearTimeout(this.timerID)
         this.health = 20
         this.coords = this.spawnPoint
         this.alive = true
     }
+}
+
+
+export enum EntityType {
+    item = 0,
+    monster = 1,
+    player = 2,
+    mob = 3
 }

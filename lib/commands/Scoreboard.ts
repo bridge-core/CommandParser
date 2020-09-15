@@ -1,4 +1,6 @@
-import { Command } from "./Command"
+import Command from "./Command"
+import World from "../World"
+import Entity from "../Entity"
 
 export interface IScore {
     name: string
@@ -7,10 +9,10 @@ export interface IScore {
 
 export class Scoreboard extends Command {
 
-    run(args: string[]): boolean {
+    run(args: string[], invoker: Entity): boolean {
         
         let successful: boolean = true
-        this.world.getEntitiesFromSelector(args[1])
+        World.instance.getEntitiesFromSelector(args[1])
         return successful
     }
 }

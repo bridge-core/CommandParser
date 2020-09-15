@@ -2,7 +2,7 @@ import {  } from './RunTime'
 import Block from './Block'
 import Entity, { Player } from './Entity'
 import { IScore } from './commands/Scoreboard'
-import { ISelector } from './Command'
+import { ISelector } from './commands/Command'
 import Selector from './Selector'
 import { Gamerules, GenericGamerule } from './Gamerules'
 import { Coords } from './Common'
@@ -16,8 +16,10 @@ export default class World {
     private commandStack = []
     private gamerules: Record<string, GenericGamerule<number | boolean>>
     protected spawnPoint: Coords = { x: 0, y:0, z:0 }
+    public static instance: World
 
     constructor() {
+        World.instance = this
         this.functions = {}
         this.commandStack = []
         this.gamerules = Gamerules
@@ -44,7 +46,7 @@ export default class World {
         }
     }
 
-    getEntitiesFromSelector(selector: String, runner?: Entity): Array<Entity> {
+    getEntitiesFromSelector(selector: String, runner?: Entity): Array<Entity> | Array<Player> {
         /*
         * returns the entities specified by SELECTOR as an array.
         * if no entities correspond to the selector an empty array | null is returned.
